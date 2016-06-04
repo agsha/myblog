@@ -2,6 +2,7 @@ Date: 2016-02-07 10:20
 Tags: ceph
 Authors: Sharath Gururaj
 Title: Setting up a ceph cluster
+disqus_identifier: setup_ceph
 
 The instructions [here](http://docs.ceph.com/docs/hammer/install/manual-deployment/) mostly work. Except that the `ceph.conf` file  given there doesnt work. Because, when I issue `sudo /etc/init.d/ceph start mon.node1` in the end, It expects a section in `ceph.   conf` called `[mon.node1]`
 

@@ -2,6 +2,7 @@ Date: 2016-02-21 10:20
 Tags: regex
 Authors: Sharath Gururaj
 Title: Regex recipes
+disqus_identifier: regex_recipes
 
 I find myself always having to google around a lot for common regex recipes. Surprisingly, the most common cases cannot be easily found without extensive grokking.
 
