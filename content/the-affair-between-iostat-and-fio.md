@@ -84,4 +84,27 @@ The error percentages from computing r/s vs the actual r/s is as follows:
 ##### Unexplained
 I am not able to explain what is going on for bs=2^{15, 16, 17}
 
+### sync,read,sync=0,direct={0,1}
+This case is exactly the same as sync=1 because read operations are always sync=1. The sync=0 flag has no effect.
+
+### sync,randread,sync=0,direct=0
+
+First, let us tackle the part of the graph until bs=2^19. Let's concentrate on r/s. In the beginning, the r/s is mainly influenced by the 5ms seek time for random read. This translates to ~170 reads per second. For later values of bs, starting from bs=2^15, the r/s starts dipping. What is happenning is that for bigger blocks, time taken to read a full block (at the rate of 130 MBps) starts dominating, which leads to a dip in r/s. 
+
+Time taken for a read = 5ms (seek time) + bs / 110 MBps(hdd read throughput)
+
+The errors of computed vs actual r/s until bs=19 is as follows:
+0.48%, 2.19%, 2.77%, 3.96%, 1.61%, 2.19%, 1.03%, 2.17%, 2.15%, 2.11%, 2.03%, 0.72%, 2.12%, 2.65%, 0.79%, 4.34%, 3.28%, -1.75%, 3.80%, 0.98%
+As you can see, its remarkably accurate
+
+For rKB/s, the computed value is iops * avgrq-sz
+When we measure the difference between computed rKB/s and actual rKB/s, we get:
+0.48%, 2.19%, 2.77%, 3.96%, 1.61%, 2.19%, 1.03%, 2.17%, 2.15%, 2.11%, 2.03%, 0.72%, 2.12%, 2.65%, 0.79%, 4.34%, 3.28%, -1.75%, 3.80%, 0.98%
+Again, incredibly accurate
+
+It is also easy to explain the graph from bs=20 onwards. Each fio block translates into bs/avrq-sq sequential disk read operations. For example, A fio block of size 2 MB results in 4 sequential reads. That explains the sudden increase in r/s after bs=19. 
+
+Another thing that happened at bs=19 was that the page-cache was completely filled. (see the io column) This results in requests being served from RAM which explains the tremendous shootup in fio iops and fio bw
+
+
 
