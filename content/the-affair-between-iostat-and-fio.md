@@ -102,9 +102,34 @@ When we measure the difference between computed rKB/s and actual rKB/s, we get:
 0.48%, 2.19%, 2.77%, 3.96%, 1.61%, 2.19%, 1.03%, 2.17%, 2.15%, 2.11%, 2.03%, 0.72%, 2.12%, 2.65%, 0.79%, 4.34%, 3.28%, -1.75%, 3.80%, 0.98%
 Again, incredibly accurate
 
-It is also easy to explain the graph from bs=20 onwards. Each fio block translates into bs/avrq-sq sequential disk read operations. For example, A fio block of size 2 MB results in 4 sequential reads. That explains the sudden increase in r/s after bs=19. 
+For the bw graph. It keeps doubling until bs = 2^19. Why? from bs=1 to bs = 4096, the doubling is caused by simply reading more bytes from the blocks that were already read anyway. From bs = 8192 onwards, the doubling is caused by the doubling of avgrq-sz. 
 
-Another thing that happened at bs=19 was that the page-cache was completely filled. (see the io column) This results in requests being served from RAM which explains the tremendous shootup in fio iops and fio bw
+The iops graph is explained simply as `bw/bs`
 
+It is also easy to explain the graph from bs=20 onwards. Each fio block translates into bs/avrq-sq sequential disk read operations. For example, A fio block of size 2 MB results in 4 sequential reads (each of 1024 sectors = 0.5 MB). That explains the sudden increase in r/s after bs=19. 
+If we now use hdd throughput = 120 MBps (retrofitted, but i've seen the throughput varying between 110-120MBps) with the formula 
+````
+computed_read_s = (bs / (1024*512)) / (5.6*10**-3 + bs/(120*2**20) )
+````
+
+The errors against actual values are as follows:
+0.38%, 0.92%, -1.21%, -4.98%, -1.99%
+
+As always, the `rKB/s` is r/s*avgrq-sz
+
+The iops and the bw graph is more interesting. Another thing that happened at bs=19 was that the page-cache was completely filled. (see the io column) This results in requests being served from RAM which explains the tremendous shootup in fio iops and fio bw
+````
+number of ios for reading the 3G file into memory = 3G/bs ------> (3)
+time to read it from hard disk = 3G/rKBps
+time for which requests were served from page-cache = 60-3G/rKBps   ----> (1)
+Time of a single page-cache io operation = 1.1 microseconds + bs / (4.8 GBps = ram  bandwidth) ----> (2)
+expected iops = ((3)+(1)/(2)) / 60
+````
+With the above formula, the errors of expected vs actual are 
+10.11%, 1.39%, 2.22%, 3.41%, 9.97%
+
+The 10% variation is not unreasonable with the complicated L* cache hierarchies of modern processors
+
+The bw graph is simply iops * bs
 
 
