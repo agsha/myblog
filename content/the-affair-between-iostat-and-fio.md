@@ -97,12 +97,13 @@ The errors of computed vs actual r/s until bs=19 is as follows:
 0.48%, 2.19%, 2.77%, 3.96%, 1.61%, 2.19%, 1.03%, 2.17%, 2.15%, 2.11%, 2.03%, 0.72%, 2.12%, 2.65%, 0.79%, 4.34%, 3.28%, -1.75%, 3.80%, 0.98%
 As you can see, its remarkably accurate
 
-For rKB/s, the computed value is iops * avgrq-sz
+For rKB/s, the computed value is r/s * avgrq-sz
 When we measure the difference between computed rKB/s and actual rKB/s, we get:
 0.48%, 2.19%, 2.77%, 3.96%, 1.61%, 2.19%, 1.03%, 2.17%, 2.15%, 2.11%, 2.03%, 0.72%, 2.12%, 2.65%, 0.79%, 4.34%, 3.28%, -1.75%, 3.80%, 0.98%
-Again, incredibly accurate
+The error rates are exactly the same as r/s which stresses that `rKB/s` is a computed value rather than an independant value.
 
-For the bw graph. It keeps doubling until bs = 2^19. Why? from bs=1 to bs = 4096, the doubling is caused by simply reading more bytes from the blocks that were already read anyway. From bs = 8192 onwards, the doubling is caused by the doubling of avgrq-sz. 
+
+For the bw graph. It is simply following `rKB/s` until bs=19
 
 The iops graph is explained simply as `bw/bs`
 
