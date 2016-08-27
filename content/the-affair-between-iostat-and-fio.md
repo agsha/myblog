@@ -8,73 +8,27 @@ disqus_identifier: c_ide
 In the following analysis, I'm going to assume you already know what `fio` and `iostat` is (I'm too lazy to write it down, and there are better articles out there). This post merely explains the relationship between the numbers
 
 ### fio output
-
-```
-[sharath.g@prod-d42ar-osd-a-00079-423040 /mnt/vdb1]$ sudo fio --name=global --bs=4k --ioengine=libaio --iodepth=1 --runtime=120 --time_based --size=3G --group_reporting --disable_lat=1 --disable_clat=1 --disable_slat=1 --clat_percentiles=0  --filename=/mnt/vdb1/fio/myfile --name=regular_read --rw=randread
-regular_read: (g=0): rw=randread, bs=4K-4K/4K-4K, ioengine=libaio, iodepth=1
-2.0.8
-Starting 1 process
-regular_read: Laying out IO file(s) (1 file(s) / 3072MB)
-Jobs: 1 (f=1): [r] [24.0% done] [672K/0K /s] [168 /0  iops] [eta 01m:32s]
-
-```
-
-[sharath.g@prod-d42ar-osd-a-00079-423040 /home/sharath.g]$ sudo fio --name=global --bs=4k --ioengine=libaio --iodepth=1 --runtime=30 --time_based --size=3G --group_reporting --disable_lat=1 --disable_clat=1 --disable_slat=1 --clat_percentiles=0  --filename=/mnt/vdb1/fio/myfile --name=regular_read --rw=randread
-regular_read: (g=0): rw=randread, bs=4K-4K/4K-4K, ioengine=libaio, iodepth=1
-2.0.8
-Starting 1 process
-Jobs: 1 (f=1): [r] [100.0% done] [708K/0K /s] [177 /0  iops] [eta 00m:00s]
-regular_read: (groupid=0, jobs=1): err= 0: pid=28099
-  read : io=21060KB, bw=718776 B/s, iops=175 , runt= 30003msec
-    bw (KB/s)  : min=  640, max=  798, per=100.00%, avg=702.34, stdev=36.92
-  cpu          : usr=0.09%, sys=0.44%, ctx=5274, majf=0, minf=20
-  IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
-     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
-     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
-     issued    : total=r=5265/w=0/d=0, short=r=0/w=0/d=0
-
-Run status group 0 (all jobs):
-   READ: io=21060KB, aggrb=701KB/s, minb=701KB/s, maxb=701KB/s, mint=30003msec, maxt=30003msec
-
-Disk stats (read/write):
-  vdb: ios=5251/0, merge=0/0, ticks=29828/0, in_queue=29820, util=99.40%
-
-
-analysis:
-  read : io=21060KB, bw=718776 B/s, iops=175 , runt= 30003msec
-issued    : total=r=5265/w=0/d=0, short=r=0/w=0/d=0
-Disk stats (read/write):
-  vdb: ios=5251/0, merge=0/0, ticks=29828/0, in_queue=29820, util=99.40%
-
+````
 io = bw*runt
 io = iops*runt*bs
 issued(r) = iops*runt
 io = ios*bs
-
+````
 ### iostat output
 
 ````
 [sharath.g@prod-d42ar-osd-a-00079-423040 /home/sharath.g]$ iostat -x -d 2 /dev/vdb 
 Device:         rrqm/s   wrqm/s     r/s     w/s    rkB/s    wkB/s avgrq-sz avgqu-sz   await r_await w_await  svctm  %util
 vdb               0.00     0.00  179.00    0.00   716.00     0.00     8.00     1.00    5.59    5.59    0.00   5.58  99.80
+````
+
 ### some inferences
 From the line `read : io=78556KB, bw=670322 B/s, iops=163 , runt=120004msec` 
 we observe that `io = bw * runt`. Makes sense.
 
-```
-### iostat output
 
-````
-[sharath.g@prod-d42ar-osd-a-00050-409388 /home/sharath.g]$ iostat -x  -d 2 /dev/vdb
-Device:         rrqm/s   wrqm/s     r/s     w/s    rkB/s    wkB/s avgrq-sz avgqu-sz   await r_await w_await  svctm  %util
-vdb               0.00     0.00  165.00    0.00   660.00     0.00     8.00     0.99    6.02    6.02    0.00   6.02  99.40
-````
 ### units
 `bs = bytes`, `io = KB` `bw=KBps`, `runt = ms` `r/s=number` `avrq-sz=sectors (=512 bytes)`
-
-### some inferences
-From the line `read : io=78556KB, bw=670322 B/s, iops=163 , runt=120004msec` 
-we observe that `io = bw * runt`. Makes sense.
 
 
 ### libaio,read,sync=0,direct=0
@@ -118,4 +72,65 @@ The `avgrq-sz` seems to be stuck at 512 sectors. Why? we saw in the case of `lib
 explain the `bw` from 2^16 onwards
 
 Quantitatively verify if the theories make sense. 
+### sync,read,sync=1,direct=1
+From bs=2^15 onwards, everything is straightforward. First, notice that iops follows r/s and bw follows rKB/s. This is expected for direct=1. So we can ignore those. 
+The total time for an read operation = 1.1 microseconds (system call) + bs / (hdd bw = 130 MBps) + bs / (RAM bw = 4.8 BGps)
+
+The RAM bw is due to copying from kernel space to user space. 
+
+The error percentages from computing r/s vs the actual r/s is as follows:
+ 5.72%, 5.19%, 6.72%, 5.22%, 5.25%, 5.68%, 6.52%, 8.25%, 11.86%, 19.85%
+
+##### Unexplained
+I am not able to explain what is going on for bs=2^{15, 16, 17}
+
+### sync,read,sync=0,direct={0,1}
+This case is exactly the same as sync=1 because read operations are always sync=1. The sync=0 flag has no effect.
+
+### sync,randread,sync=0,direct=0
+
+First, let us tackle the part of the graph until bs=2^19. Let's concentrate on r/s. In the beginning, the r/s is mainly influenced by the 5ms seek time for random read. This translates to ~170 reads per second. For later values of bs, starting from bs=2^15, the r/s starts dipping. What is happenning is that for bigger blocks, time taken to read a full block (at the rate of 130 MBps) starts dominating, which leads to a dip in r/s. 
+
+Time taken for a read = 5ms (seek time) + bs / 110 MBps(hdd read throughput)
+
+The errors of computed vs actual r/s until bs=19 is as follows:
+0.48%, 2.19%, 2.77%, 3.96%, 1.61%, 2.19%, 1.03%, 2.17%, 2.15%, 2.11%, 2.03%, 0.72%, 2.12%, 2.65%, 0.79%, 4.34%, 3.28%, -1.75%, 3.80%, 0.98%
+As you can see, its remarkably accurate
+
+For rKB/s, the computed value is r/s * avgrq-sz
+When we measure the difference between computed rKB/s and actual rKB/s, we get:
+0.48%, 2.19%, 2.77%, 3.96%, 1.61%, 2.19%, 1.03%, 2.17%, 2.15%, 2.11%, 2.03%, 0.72%, 2.12%, 2.65%, 0.79%, 4.34%, 3.28%, -1.75%, 3.80%, 0.98%
+The error rates are exactly the same as r/s which stresses that `rKB/s` is a computed value rather than an independant value.
+
+
+For the bw graph. It is simply following `rKB/s` until bs=19
+
+The iops graph is explained simply as `bw/bs`
+
+It is also easy to explain the graph from bs=20 onwards. Each fio block translates into bs/avrq-sq sequential disk read operations. For example, A fio block of size 2 MB results in 4 sequential reads (each of 1024 sectors = 0.5 MB). That explains the sudden increase in r/s after bs=19. 
+If we now use hdd throughput = 120 MBps (retrofitted, but i've seen the throughput varying between 110-120MBps) with the formula 
+````
+computed_read_s = (bs / (1024*512)) / (5.6*10**-3 + bs/(120*2**20) )
+````
+
+The errors against actual values are as follows:
+0.38%, 0.92%, -1.21%, -4.98%, -1.99%
+
+As always, the `rKB/s` is r/s*avgrq-sz
+
+The iops and the bw graph is more interesting. Another thing that happened at bs=19 was that the page-cache was completely filled. (see the io column) This results in requests being served from RAM which explains the tremendous shootup in fio iops and fio bw
+````
+number of ios for reading the 3G file into memory = 3G/bs ------> (3)
+time to read it from hard disk = 3G/rKBps
+time for which requests were served from page-cache = 60-3G/rKBps   ----> (1)
+Time of a single page-cache io operation = 1.1 microseconds + bs / (4.8 GBps = ram  bandwidth) ----> (2)
+expected iops = ((3)+(1)/(2)) / 60
+````
+With the above formula, the errors of expected vs actual are 
+10.11%, 1.39%, 2.22%, 3.41%, 9.97%
+
+The 10% variation is not unreasonable with the complicated L* cache hierarchies of modern processors
+
+The bw graph is simply iops * bs
+
 
