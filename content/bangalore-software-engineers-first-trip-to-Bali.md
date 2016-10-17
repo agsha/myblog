@@ -53,3 +53,16 @@ Little off the main touristy spot (its a separate island). I never visited it bu
 ### Voltage specs in Bali
 Bali uses the same kind of round pins that we use in india. Not the flat rectangular pins from US. But one major problem: The socket is "hollow" [like this](https://www.tripadvisor.com/LocationPhotoDirectLink-g1465999-d1539040-i79297910-The_Wangsa_Private_Estate-Tanjung_Benoa_Nusa_Dua_Peninsula_Bali.html). So if your charger body is bulky, it won't fit inside the hollowness of the sockets. None of my chargers from india fit in the socket. Luckily every airbnb that I stayed had a Bali adapter
 or a Bali charger that allowed me to charge.
+
+### Cost of the trip.
+This will of course vary a lot for person to person so your mileage may vary. The numbers are for two people for 8 days.
+The costs below are *excluding* hotel bookings and flights.
+
+Type | Cost 
+--- | --- 
+transport | Rs 10,200
+entertainment | Rs 25,000
+food | Rs 16,000
+shopping | Rs 17,000
+
+The excrutiangly detailed breakup of costs is [here](https://docs.google.com/spreadsheets/d/1uVaI5bQ702zNCqu6tZL-GoIzKm4CGlxRkincuRJys5k/edit?usp=sharing)
