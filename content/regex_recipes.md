@@ -14,11 +14,16 @@ I find myself always having to google around a lot for common regex recipes. Sur
 #### Search and replace
 Search for occurences of a regex string and replace it with something that depends on the actual value of the string.
 
-````
+````python
 import re
 p = re.compile(r"(blue|red)")
 print p.sub(lambda m: str(len(m.group())), "blue socks and red shoes")
 ````
+
+    :::python
+    print("The triple-colon syntax will *not* show line numbers.")
+
+
 
 output: `4 socks and 3 shoes`
 
