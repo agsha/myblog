@@ -8,7 +8,7 @@ disqus_identifier: squid_proxy
 ### On the client machine
 * Find out the client subnet of the form `10.34.44.0/22`. To do that, on the client machine, run `/sbin/ifconfig` to find out the       ip address and subnet mask. with these two pieces of info, you can calculate the CIDR [here](http://www.subnet-calculator.com/cidr.php)
 * export variables: 
-  ````
+  ````text
   export http_proxy=http://client.ip.ad.ress:port/
   export https_proxy=http://client.ip.ad.ress:port/
   ````
@@ -18,7 +18,7 @@ if you run sudo, make sure the variables are exported in root
 ### On the proxy machine
 * Install squid: `sudo apt-get install squid`. 
 * change /etc/squid/squid.conf to add these lines
-   ````
+   ````text
    acl wormhole src 10.34.44.0/22 # the client subnet who need the proxy
    http_access allow wormhole # wormhole is just a name
    icp_access allow wormhole
@@ -31,7 +31,7 @@ And thats it! `curl -L www.google.com` (`-L` to follow redirects) will work.
 I needed this for `pip`. With my setup, I can do `sudo export <blah>;export<blah>;pip install <package>`. 
 
 FYI, my squid version is
-````
+````text
 [sharath.g@d42-a-0003 /home/sharath.g]$ dpkg -s squid
 Package: squid
 Status: install ok installed

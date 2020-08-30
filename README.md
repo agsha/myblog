@@ -3,7 +3,7 @@ hosted on http://paundra.me
 
 # How to use
 
-```
+```bash
 python -m venv ~/venv/pelican
 source ~/venv/pelican/bin/activate
 pip install pelican[Markdown]
@@ -12,4 +12,12 @@ git clone git@github.com:agsha/myblog.git
 git clone git@github.com:agsha/agsha.github.io.git
 cd ~/code/agsha.github.io
 pelican ~/code/myblog/content  -t ~/code/pelicantheme/simple -o .
+```
+
+To enable code highlighting, we need to generate a style sheet (that I've already checked in) by
+
+```bash
+cd ~/code/pelicantheme
+pygmentize -S default -f html -a .highlighttable > simple/static/hilite.css
+pygmentize -S default -f html -a .highlight >> simple/static/hilite.css
 ```

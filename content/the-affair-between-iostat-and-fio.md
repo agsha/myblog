@@ -8,7 +8,8 @@ disqus_identifier: c_ide
 In the following analysis, I'm going to assume you already know what `fio` and `iostat` is (I'm too lazy to write it down, and there are better articles out there). This post merely explains the relationship between the numbers
 
 ### fio output
-````
+
+````text
 io = bw*runt
 io = iops*runt*bs
 issued(r) = iops*runt
@@ -16,7 +17,7 @@ io = ios*bs
 ````
 ### iostat output
 
-````
+````text
 [sharath.g@prod-d42ar-osd-a-00079-423040 /home/sharath.g]$ iostat -x -d 2 /dev/vdb 
 Device:         rrqm/s   wrqm/s     r/s     w/s    rkB/s    wkB/s avgrq-sz avgqu-sz   await r_await w_await  svctm  %util
 vdb               0.00     0.00  179.00    0.00   716.00     0.00     8.00     1.00    5.59    5.59    0.00   5.58  99.80
@@ -109,7 +110,7 @@ The iops graph is explained simply as `bw/bs`
 
 It is also easy to explain the graph from bs=20 onwards. Each fio block translates into bs/avrq-sq sequential disk read operations. For example, A fio block of size 2 MB results in 4 sequential reads (each of 1024 sectors = 0.5 MB). That explains the sudden increase in r/s after bs=19. 
 If we now use hdd throughput = 120 MBps (retrofitted, but i've seen the throughput varying between 110-120MBps) with the formula 
-````
+````text
 computed_read_s = (bs / (1024*512)) / (5.6*10**-3 + bs/(120*2**20) )
 ````
 
@@ -119,7 +120,7 @@ The errors against actual values are as follows:
 As always, the `rKB/s` is r/s*avgrq-sz
 
 The iops and the bw graph is more interesting. Another thing that happened at bs=19 was that the page-cache was completely filled. (see the io column) This results in requests being served from RAM which explains the tremendous shootup in fio iops and fio bw
-````
+````text
 number of ios for reading the 3G file into memory = 3G/bs ------> (3)
 time to read it from hard disk = 3G/rKBps
 time for which requests were served from page-cache = 60-3G/rKBps   ----> (1)

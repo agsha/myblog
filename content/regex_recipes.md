@@ -20,16 +20,12 @@ p = re.compile(r"(blue|red)")
 print p.sub(lambda m: str(len(m.group())), "blue socks and red shoes")
 ````
 
-    :::python
-    print("The triple-colon syntax will *not* show line numbers.")
-
-
 
 output: `4 socks and 3 shoes`
 
 #### Find all ip addresses in a text
 
-````
+````text
 p = re.compile(r"\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}[^0-9]")
 s = "Runbook:blah blah  IP:10.34.249.124 blah blah IP:10.33.157.166"
 print p.findall(s)
