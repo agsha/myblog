@@ -21,3 +21,9 @@ cd ~/code/pelicantheme
 pygmentize -S default -f html -a .highlighttable > simple/static/hilite.css
 pygmentize -S default -f html -a .highlight >> simple/static/hilite.css
 ```
+
+To convert urls in cookbook and generate, use 
+````bash
+cd ~/code/myblog
+python3 converturl.py /code/myblog/content/cookbook.md
+````
