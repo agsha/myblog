@@ -10,16 +10,15 @@ This article captures cookbooks or recipes that I don't use frequently enough to
 
 # <a name="table-of-contents" href="#table-of-contents">Table of contents</a>
 
-<!-- toc -->
-
-- [Julia arrays](#julia-arrays)
+<!-- toc -->- [Table of contents](#table-of-contents)
+- [Julia Arrays](#julia-arrays)
 - [Anaconda dont start at shell](#anaconda-dont-start-at-shell)
 - [How to mount samba folder in ubuntu](#how-to-mount-samba-folder-in-ubuntu)
 - [How to use du to search for hidden folders](#how-to-use-du-to-search-for-hidden-folders)
 - [Sublime text keyboard shortcuts](#sublime-text-keyboard-shortcuts)
 - [Making Nomachine nx work on amazon aws ec2](#making-nomachine-nx-work-on-amazon-aws-ec2)
 - [Remote desktop to raspberry pi](#remote-desktop-to-raspberry-pi)
-- [Echo server with netcat](#echo-server-with-netcat)
+- [Echo server with netcat ](#echo-server-with-netcat)
 - [Mounting a disk on GCP](#mounting-a-disk-on-gcp)
 - [Describe type of command](#describe-type-of-command)
 - [Linux Networking](#linux-networking)
@@ -27,26 +26,25 @@ This article captures cookbooks or recipes that I don't use frequently enough to
 - [Intellij Shortcuts](#intellij-shortcuts)
 - [Bash shortcuts](#bash-shortcuts)
 - [How to setup a new linux machine](#how-to-setup-a-new-linux-machine)
-- [Python regex recipes](#python-regex-recipes)
+- [Python regex recipes ](#python-regex-recipes)
 - [Vim one liners and shortcuts](#vim-one-liners-and-shortcuts)
-- [Cscope for linux](#cscope-for-linux)
+- [Cscope for linux ](#cscope-for-linux)
 - [Cscope for ceph](#cscope-for-ceph)
 - [Building linux](#building-linux)
 - [Using Ftrace to trace linux functions](#using-ftrace-to-trace-linux-functions)
 - [How to build linux on one machine and deploy on another](#how-to-build-linux-on-one-machine-and-deploy-on-another)
-- [JeMalloc](#jemalloc)
+- [JeMalloc ](#jemalloc)
 - [Objdump](#objdump)
 - [Installing latest version of cmake](#installing-latest-version-of-cmake)
 - [Getting honest profiler to work](#getting-honest-profiler-to-work)
 - [GCC important options](#gcc-important-options)
-- [When creating a shared library:](#when-creating-a-shared-library)
 - [Eli bendersky static linking summary](#eli-bendersky-static-linking-summary)
 - [Eli bendersky load time linking summary](#eli-bendersky-load-time-linking-summary)
 - [Eli bendersky x32 PIC linking summary](#eli-bendersky-x32-pic-linking-summary)
 - [Linux Interrupt Handling](#linux-interrupt-handling)
 - [HDFS proxy user setting](#hdfs-proxy-user-setting)
 - [Http proxy with squid](#http-proxy-with-squid)
-
+- [kafka metrics](#kafka-metrics)
 <!-- tocstop -->
 
 
@@ -560,7 +558,7 @@ Homepage: http://www.squid-cache.org/
 
 ````
 
-# kafka metrics
+# <a name="kafka-metrics" href="#kafka-metrics">kafka metrics</a>
 
 **Bytes in** is number of bytes from external producers only. It does not include, for example, the bytes read by followers during replication. So `bytes_in = message_produce_rate * average_message_size`
 
