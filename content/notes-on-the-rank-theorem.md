@@ -29,7 +29,7 @@ Although I try to cover most of the basic facts for the sake of completeness and
 In particular, familiarity with the following two books will be immensely helpful
 
 1. [Linear algebra and its applications - by Gilbert Strang](https://www.amazon.com/Introduction-Linear-Algebra-Gilbert-Strang/dp/1733146679/ref=sr_1_1?crid=1JW0E99JN5SKE&dib=eyJ2IjoiMSJ9.F5NXQBUERLV6mEXR0WvWdC1VIo5KtbzV8WZcVUP2Dg4cb4i4DR40XDLNrVXwixRol38MYo6BTvYpyNTQVQ0gImwXuiqCQ59piMxv2_tRyE44IAugYBc4-ZNbbapORHJvxiCa1y1Dmv2TKy9e3Ss9FNH_k5b179BLKOjRGpHcSZiTDj5njPwn8N8jmqDIILP_SJ-OGLVSjZwqkUiOw5K5xa7fM9dhW9Yd2ITMbkE1hR4.ea-vft9gJC1k1gLg1yAzgwQ31yIYCgzAnEuQE1JHUwo&dib_tag=se&keywords=introduction+to+linear+algebra+gilbert+strang&qid=1728671128&s=books&sprefix=introduction+to+linear+algebra+gilbert+strang%2Cstripbooks%2C277&sr=1-1). This book is more of an application oriented introductory textbook for undergrads
-1. [Linear algebra and its applications - by Peter Lax](https://www.amazon.com/Linear-Algebra-Its-Applications-Peter/dp/0471751561/ref=sr_1_1?crid=3DTKAMQYELAH8&dib=eyJ2IjoiMSJ9.QS-53qTNH2oNYLIfPP8d2aRRsbCOzpvSrfGrUdb_pa0qIz1_f0pjjxnk1y_WceOgvpwmS6HwJSYPaL6XGVINCFDPGVG98qD5yNvmlUTYpNvoNGbu17lBruy_brAbN0oG9iDTdBS8LO0LoaWQMFoTOg.r4QjPYISMr7QqB_7PAKk3omHi-hcFnfYlbUBYVR2UOA&dib_tag=se&keywords=linear+algebra+-+by+Peter+Lax&qid=1728671251&s=books&sprefix=linear+algebra+-+by+peter+lax%2Cstripbooks%2C260&sr=1-1). This book is also an undergrad texbook, Contrary to its name, it is a very abstract book, with a more rigorous approach, suitable for (example), an "honors" undergraduate course
+1. [Linear algebra and its applications - by Peter Lax](https://www.amazon.com/Linear-Algebra-Its-Applications-Peter/dp/0471751561/ref=sr_1_1?crid=3DTKAMQYELAH8&dib=eyJ2IjoiMSJ9.QS-53qTNH2oNYlinearly independentfPP8d2aRRsbCOzpvSrfGrUdb_pa0qIz1_f0pjjxnk1y_WceOgvpwmS6HwJSYPaL6XGVINCFDPGVG98qD5yNvmlUTYpNvoNGbu17lBruy_brAbN0oG9iDTdBS8LO0LoaWQMFoTOg.r4QjPYISMr7QqB_7PAKk3omHi-hcFnfYlbUBYVR2UOA&dib_tag=se&keywords=linear+algebra+-+by+Peter+Lax&qid=1728671251&s=books&sprefix=linear+algebra+-+by+peter+lax%2Cstripbooks%2C260&sr=1-1). This book is also an undergrad texbook, Contrary to its name, it is a very abstract book, with a more rigorous approach, suitable for (example), an "honors" undergraduate course
 
 Alright, lets begin!
 
@@ -207,7 +207,7 @@ We are now in a position to restate the rank theorem
 
 **The rank theorem**
 
-The row rank of a matrix is the same as the column rank. i.e., the number of LI rows in a matrix is equal to the number of LI columns in the matrix
+The row rank of a matrix is the same as the column rank. i.e., the number of linearly independent rows in a matrix is equal to the number of linearly independent columns in the matrix
 
 # The surprising nature of the rank theorem
 
@@ -216,7 +216,7 @@ Consider any matrix of any size, say $100 \times 1000$, filled with random numbe
 1. There are 100 row vectors each of dimension 1000. The rows vectors look like $(x_1, x_2, \cdots, x_{1000})$
 2. And there are 1000 column vectors, each of dimension 100. The column vectors look like $(y_1, y_2, \cdots, y_{100})$. 
 
-The row vectors look very different from the column vectors. Looking individually, the numbers also seem to bear no relationship to each other. Even the dimensions do not match. And yet, the rank theorem asserts that if there are only 50 LI rows, then there will only be 50 LI columns amongst the 1000.
+The row vectors look very different from the column vectors. Looking individually, the numbers also seem to bear no relationship to each other. Even the dimensions do not match. And yet, the rank theorem asserts that if there are only 50 linearly independent rows, then there will only be 50 linearly independent columns amongst the 1000.
 
 Another example: Consider the following matrix
 
@@ -227,7 +227,7 @@ $$T =
 3 & 6 & 1 \\
 \end{bmatrix}$$
 
-Here, all the three rows are LI, as are all the columns. However, I have made the column $C_3$ "just miss" to be equal to $C_1 + C_2$. ($3+6 \ne 1$). If I change that one number $x_{33}$ from 1 to 9, there are only 2 LI columns. Now the rank theorem asserts that this change has forced one of the rows also to be linearly dependent on the other two rows. Yet, I am hard pressed to find out what is that linear combination by visual inspection. Can you spot the linear relationship between rows $R_1, R_2, R_3$?
+Here, all the three rows are linearly independent, as are all the columns. However, I have made the column $C_3$ "just miss" to be equal to $C_1 + C_2$. ($3+6 \ne 1$). If I change that one number $x_{33}$ from 1 to 9, there are only 2 linearly independent columns. Now the rank theorem asserts that this change has forced one of the rows also to be linearly dependent on the other two rows. Yet, I am hard pressed to find out what is that linear combination by visual inspection. Can you spot the linear relationship between rows $R_1, R_2, R_3$?
 
 i.e., given $R_1 = [1, 5, 6]$, $R_2 = [2, 7, 9]$ and $R_3 = [3, 6, 9]$, can you find three numbers $a, b, c$ (not all zero) such that $aR_1 + bR_2 + cR_3 = 0$ by visual inspection? The rank theorem guarantees its existence, and indeed, $3R_1 - 3R_2 + R_3 = 0$.
 
@@ -319,7 +319,7 @@ This proof is actually pretty elegant, especially when it shows that the column 
 
 The following improvement perhaps cuts more directly to the issue at hand.
 
-Let $c_1, \cdots, c_r$ be independent column vectors in the matrix $T$ In the target space U, the basis is the [standard basis](https://en.wikipedia.org/wiki/Standard_basis). Perform a change of basis by choosing the LI column vectors as a partial basis, and complete them to get a full basis. This [change of basis](https://en.wikipedia.org/wiki/Change_of_basis) can be represented as another invertible matrix $S:U \mapsto V$, where $V$ is another vector space of the same dimensions. Now consider the matrix $Q : X \mapsto V \stackrel{\text{def}}{=} S \cdot T$. It is easy to see that 
+Let $c_1, \cdots, c_r$ be independent column vectors in the matrix $T$ In the target space U, the basis is the [standard basis](https://en.wikipedia.org/wiki/Standard_basis). Perform a change of basis by choosing the linearly independent column vectors as a partial basis, and complete them to get a full basis. This [change of basis](https://en.wikipedia.org/wiki/Change_of_basis) can be represented as another invertible matrix $S:U \mapsto V$, where $V$ is another vector space of the same dimensions. Now consider the matrix $Q : X \mapsto V \stackrel{\text{def}}{=} S \cdot T$. It is easy to see that 
 Q is of the following form
 $$Q = \begin{bmatrix}
  I & X \\ 
@@ -331,7 +331,7 @@ There are two other less well known proofs, and I really like them, and can't he
 # Proof using orthogonality
 It proceeds by the following steps
 
-1. Prove that LI rows are mapped to LI columns (really clever!)
+1. Prove that linearly independent rows are mapped to linearly independent columns (really clever!)
 2. this proves that $rowrank <= column rank
 3. Apply the same method to the transpose, giving columnrank <= rowrank
 4. hence rowrank=columnrank!
