@@ -1,0 +1,1 @@
+SITENAME = 'My Awesome Blog'

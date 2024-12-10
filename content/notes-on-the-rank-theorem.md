@@ -112,44 +112,44 @@ The following are some important properties of linear maps
 1. The value of the map on any given basis completely defines the map. This follows from the linearity property of the map
 2. In matrix form, multiplication on the right side by a column vector gives a column vector which is a linear combination of the columns of the matrix. By this interpretation, the column rank is equal to the dimension of the range of $T$
 
-Quick example:
+    Quick example:
 
-$$\begin{bmatrix}
-\vdots & \vdots & \vdots \\
-col1 & col2 & col3 \\
-\vdots & \vdots & \vdots
-\end{bmatrix} \cdot 
-\begin{bmatrix}a\\b\\c\end{bmatrix} = \begin{bmatrix} \vdots \\ a\cdot col1 + b\cdot col2 + c\cdot col3 \\ \vdots \end{bmatrix}$$
+    $$\begin{bmatrix}
+    \vdots & \vdots & \vdots \\
+    col1 & col2 & col3 \\
+    \vdots & \vdots & \vdots
+    \end{bmatrix} \cdot 
+    \begin{bmatrix}a\\b\\c\end{bmatrix} = \begin{bmatrix} \vdots \\ a\cdot col1 + b\cdot col2 + c\cdot col3 \\ \vdots \end{bmatrix}$$
 
 
 3. Similarly, multiplication from the left side by a row vector gives a row vector which is the linear combination of rows of the matrix. By this interpretation, the row rank is the dimension of the rowspace. 
 
-$$\begin{bmatrix}a & b & c\end{bmatrix} \cdot \begin{bmatrix} 
-\cdots & row1 & \cdots \\
-\cdots & row2 & \cdots \\
-\cdots & row3 & \cdots \\
-\end{bmatrix} = \begin{bmatrix}\cdots & a\cdot row1 + b\cdot row2 + c\cdot row3 & \cdots\end{bmatrix}$$
+    $$\begin{bmatrix}a & b & c\end{bmatrix} \cdot \begin{bmatrix} 
+    \cdots & row1 & \cdots \\
+    \cdots & row2 & \cdots \\
+    \cdots & row3 & \cdots \\
+    \end{bmatrix} = \begin{bmatrix}\cdots & a\cdot row1 + b\cdot row2 + c\cdot row3 & \cdots\end{bmatrix}$$
 
 
 4. **range-nullspace theorem**: the set of all vectors $v \in X$ such that $T(v) = 0$ forms a subspace of $X$ and is called the nullspace $N_T$ of $T$. We can show that $dim(X) = dim(R) + dim(N_T)$. This is a very fundamental result.
 
-**Intuitive proof**: It is easy to show that the complement of $N_T$ is isomorphic to $R$. 
+    **Intuitive proof**: It is easy to show that the complement of $N_T$ is isomorphic to $R$. 
 
 **Dot product or bilinear forms**
 
-Once we choose a basis for a vector space, we can represent each vector by an element from $R^n$. Having done so, we can define a *dot product* of two vectors, which produces a scalar in the usual way, for example
+Once we choose a basis for a vector space, we can represent each vector by an element from $\mathbb{R}^n$. Having done so, we can define a *dot product* of two vectors, which produces a scalar in the usual way, for example
 
 $$\begin{bmatrix}a_1 & a_2 & a_3\end{bmatrix} \cdot \begin{bmatrix}b_1 \\ b_2 \\ b_3\end{bmatrix} = a_1b_1 + a_2b_2 + a_3b_3$$
 
 In abstract terms, it is possible to define the dot product without the need for basis vectors. It is done by defining a *dual* vector space consisting of linear functions operating on the primal vector space. It can be shown that the dual and the primal vector space have the same dimensions.
 
-In concrete terms, when dealing with $R^n$, if the vectors of primal space are denoted by column vectors, the elements of the dual space can be considered to be represented by row vectors
+In concrete terms, when dealing with $\mathbb{R}^n$, if the vectors of primal space are denoted by column vectors, the elements of the dual space can be considered to be represented by row vectors
 
 While solving linear equations, the row vectors typically arise as coefficients, and the column vectors arise as the unknowns. The coefficients are dual to the unknowns. This is in some sense reminiscent of the duality that is also encountered in linear programming.
 
 **Change of Basis**
 
-While dealing with $R^n$, when we don't explicitly specify the basis, we usually have in mind the **standard basis**, which has a 1 in the $j^{th}$ position and zero everywhere else. Of course, there is nothing special about the standard basis, and any other basis can be used equally well. Suppose we want to use vectors $e_j$ where $j \in [1, n]$ as the basis, and suppose we want to convert between the old representation and the new representation, we can use a map which maps each old basis to its corresponding new basis. This is well defined, since a map is well defined if we specify the values on all the basis vectors. Furthermore, it is easy to see that this map is one-to-one. 
+While dealing with $\mathbb{R}^n$, when we don't explicitly specify the basis, we usually have in mind the **standard basis**, which has a 1 in the $j^{th}$ position and zero everywhere else. Of course, there is nothing special about the standard basis, and any other basis can be used equally well. Suppose we want to use vectors $e_j$ where $j \in [1, n]$ as the basis, and suppose we want to convert between the old representation and the new representation, we can use a map which maps each old basis to its corresponding new basis. This is well defined, since a map is well defined if we specify the values on all the basis vectors. Furthermore, it is easy to see that this map is one-to-one. 
 
 **Complement of a subspace**
 
@@ -183,17 +183,17 @@ In particular, $dim\ X = dim\ Y + dim\ Z$.
 
 This fact is so important, but it is not usually part of the standard fare, that I will give the outline of a proof here.
 
-**Theorem**: Let $X$ be a vector space, $dim(X) = n$. Let $Y$ be a subspace of $X$, spanned by $v_1, \cdots, v_r$. $dim(Y)=r$, then the orthogonal complement $Z$ has $dim(Z) = n-r$.
+**Theorem**: Let $X$ be $\mathbb{R}^n$, so $dim(X) = n$. Let $Y$ be a subspace of $X$, spanned by $v_1, \cdots, v_r$. $dim(Y)=r$, then the orthogonal complement $Z$ has $dim(Z) = n-r$.
 
-**Proof**: We will establish a 1:1 mapping between $Z$ and $R^{n-r}$.
+**Proof**: We will establish a 1:1 mapping between $Z$ and $\mathbb{R}^{n-r}$.
 
-First complete the partial basis of $Y$ to get a full basis $v_1, \cdots, v_n$. Every vector can be represented as $\sum{a_iv_i}$, so this is 1:1 with $\{a_i\}$. Let $z \in Z$. Define the mapping $T:z \mapsto z'$ where $$z' = [0, 0, \cdots, 0, z\cdot v_{r+1}, \cdots, z\cdot v_n]$$
+First complete the partial basis of $Y$ to get a full basis $v_1, \cdots, v_n$. Let $z \in Z$. Define the mapping $T:z \mapsto z'$ where $$z' = [0, 0, \cdots, 0, z\cdot v_{r+1}, \cdots, z\cdot v_n]$$
 
 Any such $z'$ also maps back to a unique $z \in Z$ by $z \cdot v_i = z'[i]$. Here we use the fact that a vector is uniquely specified by its values on the dot product on the basis vectors
 
 In abstract language, the orthogonal complement is called annihilator and represented as a subspace of the dual space (remember that the dual space is a space of all bilinear functions). The proof of dimension usually involves proving an isomorphism between the annihilator and the dual of the quotient space $(X/Y)$. Effectively quotient space of a subspace is what you get by throwing away components of the basis of the subspace. i.e., the "rest" of the space apart from the subspace. 
 
-Although the proof looks much cleaner there, I find the vesion I presented here to be more clear conceptually, where we establish an isomorphism between annihilator and $z' = [0, 0, \cdots, 0, l\cdot v_{r+1}, \cdots, l\cdot v_n]$
+Although the proof looks much cleaner there, I find the vesion I presented here to be more clear conceptually, where we establish an isomorphism between annihilator and $z' = [0, 0, \cdots, 0, z\cdot v_{r+1}, \cdots, z\cdot v_n]$
 
 **Rowspace, columnspace and nullspace of a matrix**
 
@@ -250,7 +250,7 @@ z &= ae - bd
 
 To me, it is surprising that a simple relationship between columns translates to such a complicated relationship among the rows. Now if you consider a $1000 \times 1000$ matrix with a complicated relationship among the columns, one can only imagine how complicated the relationship between the rows will be, and yet, the rank theorem guarantees that such a relationship must exist!
 
-Having thus shown how surprising the result of the theorem is, lets explore some common approaches to proving the rank theorem.
+Having thus shown how surprising the result of the theorem is, I want to present a somewhat intuitive proof of the theorem.
 
 
 # An intuitive proof

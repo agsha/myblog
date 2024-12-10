@@ -1,5 +1,6 @@
 Articles for my blog.
 hosted on http://paundra.me
+This content is deprecated. Please refer to https://github.com/agsha/pelicanblog
 
 # How to use
 
